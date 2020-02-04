@@ -1,4 +1,4 @@
-# Contributing to the Oracle Cloud Infrastructure Terraform Modules
+# Contributing to the Oracle Cloud Infrastructure Modules for Terraform
 
 _Copyright (c) 2020, Oracle and/or its affiliates._
 
