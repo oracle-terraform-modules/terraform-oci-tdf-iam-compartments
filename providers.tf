@@ -2,7 +2,12 @@
 # Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 
 
-
-provider "oci" {
-  alias = "oci_home"
+terraform {
+  required_providers {
+    oci = {
+      source                = "hashicorp/oci"
+      version               = "~> 4.64.0"
+      configuration_aliases = [oci.oci_home]
+    }
+  }
 }

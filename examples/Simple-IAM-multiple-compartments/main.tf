@@ -7,7 +7,7 @@ module "oci_iam_compartments" {
   source = "../../"
 
   providers = {
-    oci.oci_home = "oci.home"
+    oci.oci_home = oci.home
   }
 
   compartments_config = var.compartments_config

@@ -4,22 +4,29 @@
 
 # Compartments config Variable
 
+# Compartments config Variable
+
 compartments_config = {
-  default_compartment_id = "<root/master_compartment_ocid>"
+  default_compartment_id = "ocid1.tenancy.oc1..aaaaaaaaxzpxbcag7zgamh2erlggqro3y63tvm2rbkkjz4z2zskvagupiz7a"
   default_defined_tags   = {}
   default_freeform_tags  = null
   compartments = {
-    compartment_1 = {
-      description    = "Test Compartment 1"
-      compartment_id = "<specific_compartment_ocid>"
-      defined_tags   = null
-      freeform_tags  = null
+    l1_c1 = {
+      description      = "Test Compartment l1_c1"
+      compartment_id   = "ocid1.tenancy.oc1..aaaaaaaaxzpxbcag7zgamh2erlggqro3y63tvm2rbkkjz4z2zskvagupiz7a"
+      defined_tags     = null
+      freeform_tags    = null
+      enable_delete    = true
+      sub_compartments = {}
     }
-    compartment_2 = {
-      description    = "Test Compartment 2"
-      compartment_id = "<specific_compartment_ocid>"
-      defined_tags   = {}
-      freeform_tags  = {}
+    l1_c2 = {
+      description      = "Test Compartment l1_c2"
+      compartment_id   = "ocid1.tenancy.oc1..aaaaaaaaxzpxbcag7zgamh2erlggqro3y63tvm2rbkkjz4z2zskvagupiz7a"
+      defined_tags     = {}
+      freeform_tags    = {}
+      enable_delete    = true
+      sub_compartments = null
     }
   }
 }
+

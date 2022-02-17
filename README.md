@@ -108,14 +108,14 @@ dr_region="<your region>"
 
 ### Compartments
 
-A compartment object specifies the  attributes for a compartment, including the parent compartment.
+A compartment resources(object) specifies the  attributes for a compartment, including the parent compartment.
 
 **`oci_identity_compartment.compartments`**
 
 | Attribute | Data Type | Required | Default Value | Valid Values | Description |
 |---|---|---|---|---|---|
 | provider | string | yes | "oci.oci_home"| string containing the name of the provider as defined by the automation that consumes this module | See the examples section in order to understand how to set the provider|
-| count | number | yes | 0 | the number of resources to be created | the number of resources to be created |
+| for_each | map | yes | 0 | the resources to be created | the resources to be created |
 | name | string | yes | "OCI-TF-Group" | string of the display name | Resource name |
 | compartment\_id | string | yes | none | string of the parent compartment OCID | This is the OCID of the parent compartment |
 | description | string | no | N/A (no default) | The provided description |
@@ -125,27 +125,47 @@ A compartment object specifies the  attributes for a compartment, including the 
 
 ***Example***
 
-The following example will create 2 compartments
+The following example will create 2 compartments, each with one subcompartment:
 
 ```
 # Compartments config Variable
 
-compartments_config = {
-  default_compartment_id = "<root/master_compartment_ocid>"
+compartments_config_1 = {
+  default_compartment_id = "ocid1.tenancy.oc1..aaaaaaaaxzpxbcag7zgamh2erlggqro3y63tvm2rbkkjz4z2zskvagupiz7a"
   default_defined_tags   = {}
   default_freeform_tags  = null
   compartments = {
-    compartment_1 = {
+    l1_c1 = {
       description    = "Test Compartment 1"
-      compartment_id = "<specific_compartment_ocid>"
+      compartment_id = "ocid1.tenancy.oc1..aaaaaaaaxzpxbcag7zgamh2erlggqro3y63tvm2rbkkjz4z2zskvagupiz7a"
       defined_tags   = null
       freeform_tags  = null
+      enable_delete  = true
+      sub_compartments = {
+        l1_c1_l2_c1 = {
+          description      = "Test Compartment l1_c1_l2_c1"
+          defined_tags     = null
+          freeform_tags    = null
+          enable_delete    = true
+          sub_compartments = {}
+        }
+      }
     }
-    compartment_2 = {
-      description    = "Test Compartment 2"
-      compartment_id = "<specific_compartment_ocid>"
+    l1_c2 = {
+      description    = "Test Compartment l_c21"
+      compartment_id = "ocid1.tenancy.oc1..aaaaaaaaxzpxbcag7zgamh2erlggqro3y63tvm2rbkkjz4z2zskvagupiz7a"
       defined_tags   = {}
       freeform_tags  = {}
+      enable_delete  = true
+      sub_compartments = {
+        l1_c2_l2_c1 = {
+          description      = "Test Compartment l1_c2_l2_c1"
+          defined_tags     = null
+          freeform_tags    = null
+          enable_delete    = true
+          sub_compartments = {}
+        }
+      }
     }
   }
 }
@@ -173,8 +193,9 @@ This module has been developed and tested by running terraform on Oracle Linux S
 
 ```
 user-linux$ terraform --version
-Terraform v0.12.19
-+ provider.oci v3.58.0
+Terraform v1.1.3
+on darwin_amd64
++ provider registry.terraform.io/hashicorp/oci v4.63.0
 
 ```
 

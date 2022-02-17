@@ -4,7 +4,7 @@
 
 This example shows how to provision up to 6(OCI limit) hierarchical(one to another) Compartments.
 
-![\label{mylabel}](docs/compartment_levels.PNG) 
+![\label{mylabel}](../../docs/compartment_levels.PNG) 
 
 
 ## Using this example
@@ -56,189 +56,123 @@ data "oci_identity_region_subscriptions" "this" {
 `main.tf`:
 
 ```
-...
+
 // Copyright (c) 2018, Oracle and/or its affiliates. All rights reserved.
 
-
-module "compartment_1" {
-
-  source = "../../"
-
-  providers = {
-    oci.oci_home = "oci"
-  }
-
-  compartments_config = {
-    default_compartment_id = var.sub_compartments_config.master_comp_parent_compartment_id
-    default_defined_tags   = var.sub_compartments_config.default_defined_tags
-    default_freeform_tags  = var.sub_compartments_config.default_freeform_tags
-    compartments = {
-      compartment_1 = {
-        description    = var.sub_compartments_config.compartments[keys(var.sub_compartments_config.compartments)[0]].description
-        compartment_id = var.sub_compartments_config.master_comp_parent_compartment_id
-        defined_tags   = var.sub_compartments_config.compartments[keys(var.sub_compartments_config.compartments)[0]].defined_tags
-        freeform_tags  = var.sub_compartments_config.compartments[keys(var.sub_compartments_config.compartments)[0]].freeform_tags
-      }
-    }
-  }
-}
-
-module "compartment_2" {
+module "oci_iam_compartments" {
 
   source = "../../"
 
   providers = {
-    oci.oci_home = "oci"
+    oci.oci_home = "oci.home"
   }
-  compartments_config = {
-    default_compartment_id = module.compartment_1.compartments_config[keys(var.sub_compartments_config.compartments)[0]].id
-    default_defined_tags   = var.sub_compartments_config.default_defined_tags
-    default_freeform_tags  = var.sub_compartments_config.default_freeform_tags
-    compartments = {
-      compartment_2 = {
-        description    = var.sub_compartments_config.compartments[keys(var.sub_compartments_config.compartments)[1]].description
-        compartment_id = module.compartment_1.compartments_config[keys(var.sub_compartments_config.compartments)[0]].id
-        defined_tags   = var.sub_compartments_config.compartments[keys(var.sub_compartments_config.compartments)[1]].defined_tags
-        freeform_tags  = var.sub_compartments_config.compartments[keys(var.sub_compartments_config.compartments)[1]].freeform_tags
-      }
-    }
-  }
+
+  compartments_config = var.compartments_config
 }
 
-
-module "compartment_3" {
-
-  source = "../../"
-
-  providers = {
-    oci.oci_home = "oci"
-  }
-
-  compartments_config = {
-    default_compartment_id = module.compartment_2.compartments_config[keys(var.sub_compartments_config.compartments)[1]].id
-    default_defined_tags   = var.sub_compartments_config.default_defined_tags
-    default_freeform_tags  = var.sub_compartments_config.default_freeform_tags
-    compartments = {
-      compartment_3 = {
-        description    = var.sub_compartments_config.compartments[keys(var.sub_compartments_config.compartments)[2]].description
-        compartment_id = module.compartment_2.compartments_config[keys(var.sub_compartments_config.compartments)[1]].id
-        defined_tags   = var.sub_compartments_config.compartments[keys(var.sub_compartments_config.compartments)[2]].defined_tags
-        freeform_tags  = var.sub_compartments_config.compartments[keys(var.sub_compartments_config.compartments)[2]].freeform_tags
-      }
-    }
-  }
-}
-
-module "compartment_4" {
-
-  source = "../../"
-
-  providers = {
-    oci.oci_home = "oci"
-  }
-
-  compartments_config = {
-    default_compartment_id = module.compartment_3.compartments_config[keys(var.sub_compartments_config.compartments)[2]].id
-    default_defined_tags   = var.sub_compartments_config.default_defined_tags
-    default_freeform_tags  = var.sub_compartments_config.default_freeform_tags
-    compartments = {
-      compartment_4 = {
-        description    = var.sub_compartments_config.compartments[keys(var.sub_compartments_config.compartments)[3]].description
-        compartment_id = module.compartment_3.compartments_config[keys(var.sub_compartments_config.compartments)[2]].id
-        defined_tags   = var.sub_compartments_config.compartments[keys(var.sub_compartments_config.compartments)[3]].defined_tags
-        freeform_tags  = var.sub_compartments_config.compartments[keys(var.sub_compartments_config.compartments)[3]].freeform_tags
-      }
-    }
-  }
-}
-
-
-module "compartment_5" {
-
-  source = "../../"
-
-  providers = {
-    oci.oci_home = "oci"
-  }
-
-  compartments_config = {
-    default_compartment_id = module.compartment_4.compartments_config[keys(var.sub_compartments_config.compartments)[3]].id
-    default_defined_tags   = var.sub_compartments_config.default_defined_tags
-    default_freeform_tags  = var.sub_compartments_config.default_freeform_tags
-    compartments = {
-      compartment_5 = {
-        description    = var.sub_compartments_config.compartments[keys(var.sub_compartments_config.compartments)[4]].description
-        compartment_id = module.compartment_4.compartments_config[keys(var.sub_compartments_config.compartments)[3]].id
-        defined_tags   = var.sub_compartments_config.compartments[keys(var.sub_compartments_config.compartments)[4]].defined_tags
-        freeform_tags  = var.sub_compartments_config.compartments[keys(var.sub_compartments_config.compartments)[4]].freeform_tags
-      }
-    }
-  }
-}
-
-module "compartment_6" {
-
-  source = "../../"
-
-  providers = {
-    oci.oci_home = "oci"
-  }
-
-  compartments_config = {
-    default_compartment_id = module.compartment_5.compartments_config[keys(var.sub_compartments_config.compartments)[4]].id
-    default_defined_tags   = var.sub_compartments_config.default_defined_tags
-    default_freeform_tags  = var.sub_compartments_config.default_freeform_tags
-    compartments = {
-      compartment_6 = {
-        description    = var.sub_compartments_config.compartments[keys(var.sub_compartments_config.compartments)[5]].description
-        compartment_id = module.compartment_5.compartments_config[keys(var.sub_compartments_config.compartments)[4]].id
-        defined_tags   = var.sub_compartments_config.compartments[keys(var.sub_compartments_config.compartments)[5]].defined_tags
-        freeform_tags  = var.sub_compartments_config.compartments[keys(var.sub_compartments_config.compartments)[5]].freeform_tags
-      }
-    }
-  }
-}
-
-...
 ```
 
 Edit your `iam.auto.tfvars` file:
 
 ```
-sub_compartments_config = {
-  master_comp_parent_compartment_id = "<master-compartment-id>"
-  default_defined_tags              = {}
-  default_freeform_tags             = null
+compartments_config = {
+  default_compartment_id = "ocid1.tenancy.oc1..aaaaaaaaxzpxbcag7zgamh2erlggqro3y63tvm2rbkkjz4z2zskvagupiz7a"
+  default_defined_tags   = {}
+  default_freeform_tags  = null
   compartments = {
-    compartment_1 = {
-      description   = "Test Compartment 1"
-      defined_tags  = null
-      freeform_tags = null
+    l1_c1 = {
+      description    = "Test Compartment l1_c1"
+      compartment_id = "<tenancy_ocid> - tenancy because we are building a max layer(6) hierarchy compartments"
+      defined_tags   = null
+      freeform_tags  = null
+      enable_delete  = true
+      sub_compartments = {
+        l1_c1_l2_c1 = {
+          description   = "Test Compartment l1_c1_l2_c1"
+          defined_tags  = null
+          freeform_tags = null
+          enable_delete = true
+          sub_compartments = {
+            l1_c1_l2_c1_l3_c1 = {
+              description   = "Test compartment l1_c1_l2_c1_l3_c1"
+              defined_tags  = null
+              freeform_tags = null
+              enable_delete = true
+              sub_compartments = {
+                l1_c1_l2_c1_l3_c1_l4_c1 = {
+                  description   = "Test compartment l1_c1_l2_c1_l3_c1_l4_c1"
+                  defined_tags  = null
+                  freeform_tags = null
+                  enable_delete = true
+                  sub_compartments = {
+                    l1_c1_l2_c1_l3_c1_l4_c1_l5_c1 = {
+                      description   = "Test compartment l1_c1_l2_c1_l3_c1_l4_c1_l5_c1"
+                      defined_tags  = null
+                      freeform_tags = null
+                      enable_delete = true
+                      sub_compartments = {
+                        l1_c1_l2_c1_l3_c1_l4_c1_l5_c1_l6_c1 = {
+                          description   = "Test compartment l1_c1_l2_c1_l3_c1_l4_c1_l5_c1_l6_c1"
+                          defined_tags  = null
+                          freeform_tags = null
+                          enable_delete = true
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
-    compartment_2 = {
-      description   = "Test Compartment 2"
-      defined_tags  = {}
-      freeform_tags = {}
-    }
-    compartment_3 = {
-      description   = "Test Compartment 3"
-      defined_tags  = {}
-      freeform_tags = {}
-    }
-    compartment_4 = {
-      description   = "Test Compartment 4"
-      defined_tags  = {}
-      freeform_tags = {}
-    }
-    compartment_5 = {
-      description   = "Test Compartment 5"
-      defined_tags  = {}
-      freeform_tags = {}
-    }
-    compartment_6 = {
-      description   = "Test Compartment 6"
-      defined_tags  = {}
-      freeform_tags = {}
+    l1_c2 = {
+      description    = "Test Compartment l1_c2"
+      compartment_id = "<tenancy_ocid>- - tenancy because we are building a max layer(6) hierarchy compartments"
+      defined_tags   = {}
+      freeform_tags  = {}
+      enable_delete  = true
+      sub_compartments = {
+        l1_c2_l2_c1 = {
+          description   = "Test Compartment l1_c2_l2_c1"
+          defined_tags  = null
+          freeform_tags = null
+          enable_delete = true
+          sub_compartments = {
+            l1_c2_l2_c1_l3_c1 = {
+              description   = "Test compartment l1_c2_l2_c1_l3_c1"
+              defined_tags  = null
+              freeform_tags = null
+              enable_delete = true
+              sub_compartments = {
+                l1_c2_l2_c1_l3_c1_l4_c1 = {
+                  description   = "Test compartment l1_c2_l2_c1_l3_c1_l4_c1"
+                  defined_tags  = null
+                  freeform_tags = null
+                  enable_delete = true
+                  sub_compartments = {
+                    l1_c2_l2_c1_l3_c1_l4_c1_l5_c1 = {
+                      description   = "Test compartment l1_c2_l2_c1_l3_c1_l4_c1_l5_c1"
+                      defined_tags  = null
+                      freeform_tags = null
+                      enable_delete = true
+                      sub_compartments = {
+                        l1_c2_l2_c1_l3_c1_l4_c1_l5_c1_l6_c1 = {
+                          description   = "Test compartment l1_c2_l2_c1_l3_c1_l4_c1_l5_c1_l6_c1"
+                          defined_tags  = null
+                          freeform_tags = null
+                          enable_delete = true
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
