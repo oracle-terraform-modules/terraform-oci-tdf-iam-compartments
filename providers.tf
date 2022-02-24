@@ -7,7 +7,7 @@ terraform {
     oci = {
       source                = "hashicorp/oci"
       version               = "~> 4.64.0"
-      configuration_aliases = [oci.oci_home]
+      configuration_aliases = [oci.home]
     }
   }
 }

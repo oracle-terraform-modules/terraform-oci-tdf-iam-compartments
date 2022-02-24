@@ -152,7 +152,7 @@ locals {
 
 
 resource "oci_identity_compartment" "l1_compartments" {
-  provider = oci.oci_home
+  provider = oci.home
   for_each = var.compartments_config != null ? (var.compartments_config.compartments != null ? var.compartments_config.compartments : {}) : {}
 
   #Required
@@ -171,7 +171,7 @@ resource "oci_identity_compartment" "l1_compartments" {
 }
 
 resource "oci_identity_compartment" "l2_compartments" {
-  provider = oci.oci_home
+  provider = oci.home
   for_each = var.compartments_config != null ? (local.l2_compartments != null ? local.l2_compartments : {}) : {}
 
   #Required
@@ -190,7 +190,7 @@ resource "oci_identity_compartment" "l2_compartments" {
 }
 
 resource "oci_identity_compartment" "l3_compartments" {
-  provider = oci.oci_home
+  provider = oci.home
   for_each = var.compartments_config != null ? (local.l3_compartments != null ? local.l3_compartments : {}) : {}
 
   #Required
@@ -210,7 +210,7 @@ resource "oci_identity_compartment" "l3_compartments" {
 }
 
 resource "oci_identity_compartment" "l4_compartments" {
-  provider = oci.oci_home
+  provider = oci.home
   for_each = var.compartments_config != null ? (local.l4_compartments != null ? local.l4_compartments : {}) : {}
 
   #Required
@@ -229,7 +229,7 @@ resource "oci_identity_compartment" "l4_compartments" {
 }
 
 resource "oci_identity_compartment" "l5_compartments" {
-  provider = oci.oci_home
+  provider = oci.home
   for_each = var.compartments_config != null ? (local.l5_compartments != null ? local.l5_compartments : {}) : {}
 
   #Required
@@ -248,7 +248,7 @@ resource "oci_identity_compartment" "l5_compartments" {
 }
 
 resource "oci_identity_compartment" "l6_compartments" {
-  provider = oci.oci_home
+  provider = oci.home
   for_each = var.compartments_config != null ? (local.l5_compartments != null ? local.l6_compartments : {}) : {}
 
   #Required
