@@ -13,7 +13,7 @@ output "compartments_config" {
         name                    = l1.name,
         description             = l1.description,
         compartment_id          = l1.compartment_id,
-        parent_compartment_name = data.oci_identity_compartments.l1_comp_parent[l1.name].compartments[0].name
+        parent_compartment_name = length(data.oci_identity_compartments.l1_comp_parent[l1.name].compartments) > 0 ? data.oci_identity_compartments.l1_comp_parent[l1.name].compartments[0].name : "No parent compartment"
         defined_tags            = l1.defined_tags,
         freeform_tags           = l1.freeform_tags,
         id                      = l1.id,
