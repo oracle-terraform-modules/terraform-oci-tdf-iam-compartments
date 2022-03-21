@@ -4,7 +4,10 @@
 data "oci_identity_compartments" "l1_comp_parent" {
   provider = oci.home
   for_each = var.compartments_config != null ? (var.compartments_config.compartments != null ? var.compartments_config.compartments : {}) : {}
-
+  
+  depends_on = [
+    oci_identity_compartment.l1_compartments
+  ]
   #Required
   compartment_id = each.value.compartment_id != null ? each.value.compartment_id : (var.compartments_config.default_compartment_id != null ? var.compartments_config.default_compartment_id : local.default_compartment.compartment_id)
 }
