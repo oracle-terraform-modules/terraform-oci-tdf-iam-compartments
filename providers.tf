@@ -5,7 +5,7 @@
 terraform {
   required_providers {
     oci = {
-      source                = "hashicorp/oci"
+      #source                = "oracle/oci"
       #version               = "~> 4.64.0"
       configuration_aliases = [oci.home]
     }
